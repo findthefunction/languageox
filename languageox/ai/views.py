@@ -18,16 +18,4 @@ class TextToSpeechView(APIView):
                 return Response(audio_file.read(), content_type="audio/mp3")
         return Response({"error": "Text not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-# ai/urls.py
-from django.urls import path
-from .views import TextToSpeechView
 
-urlpatterns = [
-    path('tts/', TextToSpeechView.as_view(), name='tts'),
-]
-
-# language_app/urls.py
-urlpatterns = [
-    ...
-    path('api/ai/', include('ai.urls')),
-]

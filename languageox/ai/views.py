@@ -23,12 +23,16 @@ class GenerateFlashcardView(APIView):
         prompt = request.data.get('prompt')
         user = request.user
 
-        # Call the local Ollama model API to generate flashcard
+        # Call the Aya model API to generate flashcard
         response = requests.post(
-            'http://localhost:8000/ollama-api/generate',
-            json={'prompt': prompt}
+            'http://localhost:11434/api/generate',  # Ollama API endpoint
+            json={
+                'model': 'aya_flashcards',
+                'prompt': prompt,
+                'parameters': {'temperature': 0.7}
+            }
         )
-        
+
         if response.status_code == 200:
             generated_data = response.json()
 
@@ -38,14 +42,14 @@ class GenerateFlashcardView(APIView):
                 "topic": "General",
                 "prompt": prompt,
                 "content": generated_data.get('content', ''),
-                "frequency": generated_data.get('frequency', 0),  # Adjust based on your logic
+                "frequency": generated_data.get('frequency', 0),
                 "pinyin": generated_data.get('pinyin', ''),
                 "translation": generated_data.get('translation', ''),
                 "example": generated_data.get('example', ''),
                 "example_translation": generated_data.get('example_translation', ''),
                 "usage_notes": generated_data.get('usage_notes', ''),
             }
-            
+
             serializer = FlashcardSerializer(data=flashcard_data)
             if serializer.is_valid():
                 serializer.save()
@@ -53,6 +57,3 @@ class GenerateFlashcardView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"error": "Failed to generate flashcard"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-

@@ -1,0 +1,38 @@
+# languageox/docker-compose.yml
+
+version: '3.12'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - ai_model
+
+  frontend:
+    build:
+      context: ./frontend
+    dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  db:
+    image: postgres:13
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: languageox
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  ai_model:
+    image: ollama/ollama  # Use the official Ollama Docker image
+    ports:
+      - "11434:11434"
+    command: ["serve", "aya_flashcards"]

@@ -10,6 +10,7 @@ gtts = "*"
 django-cors-headers = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
+ollama = "*"
 
 [dev-packages]
 

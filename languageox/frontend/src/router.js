@@ -2,12 +2,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import FlashcardList from './components/FlashcardList';
+import CreateFlashcard from './components/CreateFlashcard';
+import GenerateFlashcard from './components/GenerateFlashcard';
 
 const AppRouter = () => (
   <Router>
     <Switch>
       <Route path="/" exact component={FlashcardList} />
-      {/* Add more routes as needed */}
+      <Route path="/create-flashcard" component={CreateFlashcard} />
+      <Route path="/generate-flashcard" component={GenerateFlashcard} />
     </Switch>
   </Router>
 );

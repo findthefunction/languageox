@@ -9,8 +9,10 @@
 }
 
 
-Generate a flashcard for the following prompt: "prompt"
+## Generate a flashcard for the following prompt: "prompt"
+
 Response should include:
+
 - Content
 - Frequency (0-5)
 - Pinyin
@@ -18,7 +20,5 @@ Response should include:
 - Example sentence
 - Example translation
 - Usage notes
-
-
 
 ollama create aya_flashcards -f ./Modelfile
